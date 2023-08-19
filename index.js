@@ -25,9 +25,15 @@ client.on("messageCreate", async (message) => {
   )
     return;
 
-  await message.channel.sendTyping();
-
   const content = message.content.trim();
+  if (content === ".sıfırla") {
+    data.delete(message.author.id);
+
+    await message.reply("Sıfırlandı!");
+    return;
+  }
+
+  await message.channel.sendTyping();
 
   if (!data.has(message.author.id)) data.set(message.author.id, []);
   const userData = [...data.get(message.author.id), { role: "user", content }];
