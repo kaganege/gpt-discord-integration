@@ -18,18 +18,19 @@ client.on("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
+  const content = message.content.trim();
+
   if (
     message.author.bot ||
     message.channel.id !== process.env.CHANNEL_ID ||
-    message.content.startsWith(".")
+    (content !== ".sıfırla" && content.startsWith("."))
   )
     return;
 
-  const content = message.content.trim();
   if (content === ".sıfırla") {
     data.delete(message.author.id);
 
-    await message.reply("Sıfırlandı!");
+    await message.reply("Önceki konuşmalarınız sıfırlandı!");
     return;
   }
 
