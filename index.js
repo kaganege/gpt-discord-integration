@@ -28,7 +28,7 @@ client.on("messageCreate", async (message) => {
     return;
 
   if (content === ".sıfırla") {
-    data.delete(message.author.id);
+    if (data.has(message.author.id)) data.delete(message.author.id);
 
     await message.reply("Önceki konuşmalarınız sıfırlandı!");
     return;
@@ -36,8 +36,7 @@ client.on("messageCreate", async (message) => {
 
   await message.channel.sendTyping();
 
-  if (!data.has(message.author.id)) data.set(message.author.id, []);
-  const userData = [...data.get(message.author.id), { role: "user", content }];
+  const userData = [...(data.get(message.author.id) || []), { role: "user", content }];
   data.set(message.author.id, userData);
 
   const completion = await openai.chat.completions.create({
